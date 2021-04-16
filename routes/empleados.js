@@ -29,20 +29,21 @@ class Empleados
         const resp= await this.serviceEmpleados.getEmpleadoById(id);
 
         res.status(200).json(resp);
-    });
+        });
     
     
     this.router.post('/',async (req, res)=>{
-        const empleados=await this.serviceEmpleados.getEmpleados();
+        //const empleados=await this.serviceEmpleados.getEmpleados();
         
-        let id= (empleados.length!=0) ? empleados[empleados.length-1].id + 1 : 1;
-        
+        let id=1;
         //let edad= (empleados[empleados.length-1]) ? empleados[empleados.length-1].edad + 1 : 1;
-        const {nombre, edad}= req.body;
+        //const {nombre, edad}= req.body;
+        const body= req.body;
 
-         console.log("La data", req.body);
+         //console.log("La data", req.body);
         
-        const empleado = {id:id, nombre, edad}
+        //const empleado = {id:id, nombre, edad}
+        const empleado = body;
         
         const resp= await this.serviceEmpleados.setEmpleado(empleado);
         res.status(200).json(resp);

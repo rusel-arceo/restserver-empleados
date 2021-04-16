@@ -1,14 +1,17 @@
+const {EmpleadoDB} = require('../libs/database/empleadoDB');
 
 class ServiceEmpleados
 {
     constructor()
     {
         this.empleados=[];
+        this.empleadoDB= new EmpleadoDB();
     }
 
     async getEmpleados ()
     {
-        return this.empleados; 
+        //return this.empleados; 
+        return this.empleadoDB.getEmpleado();
     }
 
     async getEmpleadoById (id)
@@ -24,11 +27,14 @@ class ServiceEmpleados
     async setEmpleado (empleado)
     {
         try{
-            console.log("Estoy en set empleado", empleado);
-            this.empleados.push(empleado); 
-            console.log("Los empleados son: ", this.empleados);
+            
+            //this.empleados.push(empleado); 
+            console.log("En set empleados service antes de a llamar insertar en empladosDB, son: ", empleado);
+            
+            const result= this.empleadoDB.saveEmpleado(empleado);
+            console.log("Ya se llamó a empleado.save desde el service");
 
-            return empleado;
+            return result;
         }catch(err)
         {
             throw new Error("Sucedio un error al insertar", err);

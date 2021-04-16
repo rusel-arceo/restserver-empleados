@@ -2,12 +2,21 @@ const express= require('express');
 const cors= require('cors');//paquete cors para permitir accesos,lista blanca o lista negra
 const {Empleados}= require('./routes/empleados.js');
 const {config}= require('./config/index');
+const { dbConnection } = require('./libs/database/config');
 
 class Server{
     constructor()
     {
-        this.app = express();
+        this.app = express(); 
         
+        //Pedimos la conexion a la base de datos
+        this.conectarDB();
+        
+        //llamamos a los middlewares
+        this.middlewares();
+        
+        //iniciamos el servidor
+        this.start();        
     }
     
     //permitimos que cualquier dominio accese a nuestra app
@@ -17,9 +26,13 @@ class Server{
         this.app.use(cors());
         
         //lectura y parseo del body
-        this.app.use(express.json()); 
-        
-        
+        this.app.use(express.json());       
+                
+    }
+
+    async conectarDB()
+    {
+        await dbConnection();
     }
     
     start()
@@ -40,5 +53,3 @@ class Server{
 }
 
 const server = new Server();
-server.middlewares();
-server.start();
